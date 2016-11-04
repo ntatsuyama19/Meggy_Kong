@@ -47,16 +47,13 @@ struct Point
 
 Point player = {0,1}; // luigi x position & y position
 Point badguy = {7,7}; // donkey kong x position & y position 
-Point barrel1 = {1,7};
-Point barrel2 = {5,7};
-int g = 2;
-int h = 4;
-int k = 5;
-int m = 4;
-int n = 6; 
-int o = 1;
-int p = 3;
-int r = 1;
+Point barrel1 = {1,7};// barrel 1 x & y position
+Point barrel2 = {5,7};// barrel 2 x & y position
+Point fire1 = {2,4};    // fire 1 x & y position
+Point fire2 = {5,4};    // fire 2 x & y position
+Point barrel3 = {6,1};  // barrel 3 x & y position
+Point barrel4 = {3,1};  // barrel 4 x & y position
+
 
 
 
@@ -69,7 +66,7 @@ void setup()
 
 void drawBackground()
 {
-  DrawPx(0,6,Red);
+  DrawPx(0,6,Red);          //draw background all the platforms
   DrawPx(1,6,Red);
   DrawPx(2,6,Red);
   DrawPx(3,6,Red);
@@ -97,88 +94,49 @@ void drawBackground()
 
 void drawEnemies()
 {
-  DrawPx(barrel1.x,barrel1.y,Blue);
-  DrawPx(e,f,Blue);
-  DrawPx(g,h,Orange);
-  DrawPx(k,m,Orange);
-  DrawPx(n,o,Blue);
-  DrawPx(p,r,Blue);
+  DrawPx(barrel1.x,barrel1.y,Blue);         //draw barrel 1
+  DrawPx(barrel2.x,barrel2.y,Blue);         //draw barrel 2
+  DrawPx(fire1.x,fire1.y,Orange);           //draw fire 1
+  DrawPx(fire2.x,fire2.y,Orange);           //draw fire 2
+  DrawPx(barrel3.x,barrel3.y,Blue);         //draw barrel 3
+  DrawPx(barrel4.x,barrel4.y,Blue);         //draw barrel 4
 }
 
 void barrel1Movement()
 {
-  int direction = 270;
-  delay(225);
-  if (direction == 270)
+  int direction = 270;                       //original direction 270
+  delay(225);                                // wait 225 mil. sec.
+  if ((barrel1.x == -1) && (barrel1.y == 7)) //if at this point shift to next line
   {
-    barrel1.x = barrel1.x - 1;
+    direction = 90;                           //move in direction 90
+    barrel1.x = 0;                            //spawn barrel x position
+    barrel1.y = 4;                            //spawn barrel y position
+    delay(225);                               // wait 225 mil. sec.
   }
-  if (direction == 90)
+  if ((barrel1.x == 8) && (barrel1.y == 4))  //if at this point shift to next line
   {
-    barrel1.x = barrel1.x = 1;
-  }
-  if ((barrel1.x == -1) && (barrel1.y == 7))
-  {
-    barrel1.x = 1;
-    barrel1.y = 4;
-    direction = 90;
-    delay(225);
-  }
-  if ((barrel1.x == 8) && (barrel1.y == 4))
-  {
-    barrel1.x = 7;
-    barrel1.y = 1;
-    direction = 270;
-    delay(225);
+    barrel1.x = 7;                            //spawn barrel x position
+    barrel1.y = 1;                            //spawn barrel y position
+    direction = 270;                          //move in driection 90
+    delay(225);                               // wait 225 mil. sec.
   }
   if ((barrel1.x == -1) && (barrel1.y == 1))
   {
-    barrel1.x = 6;
-    barrel1.y = 7;
-    direction = 270; 
-    delay(225);
+    barrel1.x = 6;                             //spawn barrel x position
+    barrel1.y = 7;                             //spawn barrel y position
+    direction = 270;                           //move in direction 270
+    delay(225);                                // wait 225 mil. sec.
+  if (direction == 270)                        //if going in certain direction
+  {
+    barrel1.x = barrel1.x - 1;                 //move to the left
+  }
+  if (direction == 90)
+  {
+    barrel1.x = barrel1.x + 1;                 //move to the right
   }
 }
 
 
-
-void drawHeroandBadguy()
-{
-  DrawPx(player.x,player.y,Green);
-  DrawPx(badguy.x,badguy.y,Violet);
-}
-
-void HeroMovement()
-{
-  CheckButtonsPress();
-  if (Button_Right)
-  {
-    player.x = player.x + 1;
-    if (player.x > 7)
-    {
-      player.x = 7;
-      player.y = 4;
-    }
-  }
-  if (Button_Left)
-  {
-    player.x = player.x - 1;
-    if (player.x < 0)
-    {
-      player.x = 0;
-      player.y = 7;
-    }
-  }
-  if (Button_Up)
-  {
-    player.y = player.y + 1;
-    delay(75);
-    player.x = player.x + 1;
-    delay(75);
-    player.y = player.y - 1;
-    delay(75);
-  }
-}
 
 
 
@@ -196,6 +154,56 @@ void loop()
   
 }
 
+
+void drawheroandBadguy()
+{
+  DrawPx(player.x,player.y,Green);             //spanw hero
+  DrawPx(badguy.x,badguy.y,Violet);            //spaen badguy
+}
+
+void heroMovement
+{
+  CheckButtonsPress();                          //check movement
+  if (Button_Right)
+  {
+    player.x = player.x + 1;                    //move right
+    if (player.x > 7)
+    {
+      player.x = 7;
+      player.y = 4;
+    }
+  }
+  if (Button_Left)
+  {
+    player.x = player.x - 1;                    //move left
+    if (player.x < 0)
+    {
+      player.x = 0;
+      player.y = 7;
+    }
+  }
+  if (direction == 90)
+  {
+    if (Button_Up)
+    {
+      player.y = player.y + 1;                    //move up
+      delay(75);
+      player.x = player.x + 1;                    //move right
+      delay(75);
+      player.y = player.y - 1;                    //move down
+      delay(75);
+    }  
+  if (direction = 270)
+  {
+    player.y = player.y + 1;                    //move up
+    delay(75);
+    player.x = player.x - 1;                    //move left
+    delay(75);
+    player.y = player.y - 1;                    //move down
+    delay(75);
+  }
+  }
+}
 
 
 
