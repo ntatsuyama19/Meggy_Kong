@@ -43,6 +43,7 @@ struct Point
 {
  int x;
  int y;
+ int direction;
 }; 
 
 Point player = {0,1}; // luigi x position & y position
@@ -53,7 +54,7 @@ Point fire1 = {2,4};    // fire 1 x & y position
 Point fire2 = {5,4};    // fire 2 x & y position
 Point barrel3 = {6,1};  // barrel 3 x & y position
 Point barrel4 = {3,1};  // barrel 4 x & y position
-
+int direction = 0;
 
 
 
@@ -62,6 +63,19 @@ Point barrel4 = {3,1};  // barrel 4 x & y position
 void setup() 
 {
   MeggyJrSimpleSetup();     // put barrel1.your setup code here, to run once:
+}
+
+void loop() 
+{
+  drawBackground();
+  drawheroandBadguy();
+  drawEnemies();
+
+  DisplaySlate();
+  ClearSlate();
+  heroMovement();
+  barrel1Movement();
+  barrel2Movement();
 }
 
 void drawBackground()
@@ -104,55 +118,79 @@ void drawEnemies()
 
 void barrel1Movement()
 {
-  int direction = 270;                       //original direction 270
+  if (barrel1.direction == 270)                        //if going in certain direction
+  {
+    barrel1.x = barrel1.x - 1;                 //move to the left
+  }
+  if (barrel1.direction == 90)
+  {
+    barrel1.x = barrel1.x + 1;                 //move to the right
+  }        
+  barrel1.direction = 270;//original direction 270
   delay(225);                                // wait 225 mil. sec.
   if ((barrel1.x == -1) && (barrel1.y == 7)) //if at this point shift to next line
   {
-    direction = 90;                           //move in direction 90
+    barrel1.direction = 90;                           //move in direction 90
     barrel1.x = 0;                            //spawn barrel x position
     barrel1.y = 4;                            //spawn barrel y position
     delay(225);                               // wait 225 mil. sec.
   }
   if ((barrel1.x == 8) && (barrel1.y == 4))  //if at this point shift to next line
   {
+    barrel1.direction = 270;                          //move in driection 90
     barrel1.x = 7;                            //spawn barrel x position
     barrel1.y = 1;                            //spawn barrel y position
-    direction = 270;                          //move in driection 90
     delay(225);                               // wait 225 mil. sec.
   }
   if ((barrel1.x == -1) && (barrel1.y == 1))
   {
+    barrel1.direction = 270;                           //move in direction 270
     barrel1.x = 6;                             //spawn barrel x position
     barrel1.y = 7;                             //spawn barrel y position
-    direction = 270;                           //move in direction 270
     delay(225);                                // wait 225 mil. sec.
-  if (direction == 270)                        //if going in certain direction
-  {
-    barrel1.x = barrel1.x - 1;                 //move to the left
-  }
-  if (direction == 90)
-  {
-    barrel1.x = barrel1.x + 1;                 //move to the right
   }
 }
 
-
-
-
-
-void loop() 
+void barrel2Movement()
 {
-  drawBackground();
-  drawHeroandBadguy();
-  drawEnemies();
-
-  DisplaySlate();
-  ClearSlate();
-  HeroMovement();
-  barrel1Movement();
-
-  
+  if (barrel2.direction == 270)                        //if going in certain direction
+  {
+    barrel2.x = barrel2.x - 1;                 //move to the left
+  }
+  if (barrel2.direction == 90)
+  {
+    barrel2.x = barrel2.x + 1;                 //move to the right
+  }        
+  barrel2.direction = 270;//original direction 270
+  delay(225);                                // wait 225 mil. sec.
+  if ((barrel2.x == -1) && (barrel2.y == 7)) //if at this point shift to next line
+  {
+    barrel2.direction = 90;                           //move in direction 90
+    barrel2.x = 0;                            //spawn barrel x position
+    barrel2.y = 4;                            //spawn barrel y position
+    delay(225);                               // wait 225 mil. sec.
+  }
+  if ((barrel2.x == 8) && (barrel2.y == 4))  //if at this point shift to next line
+  {
+    barrel2.direction = 270;                          //move in driection 90
+    barrel2.x = 7;                            //spawn barrel x position
+    barrel2.y = 1;                            //spawn barrel y position
+    delay(225);                               // wait 225 mil. sec.
+  }
+  if ((barrel2.x == -1) && (barrel2.y == 1))
+  {
+    barrel2.direction = 270;                           //move in direction 270
+    barrel2.x = 6;                             //spawn barrel x position
+    barrel2.y = 7;                             //spawn barrel y position
+    delay(225);                                // wait 225 mil. sec.
+  }
 }
+
+
+
+
+
+
 
 
 void drawheroandBadguy()
@@ -161,28 +199,44 @@ void drawheroandBadguy()
   DrawPx(badguy.x,badguy.y,Violet);            //spaen badguy
 }
 
-void heroMovement
+void heroMovement()
 {
   CheckButtonsPress();                          //check movement
   if (Button_Right)
   {
+    player.direction = 90;
     player.x = player.x + 1;                    //move right
-    if (player.x > 7)
+    if ((player.x == 8) && (player.y == 1))
     {
       player.x = 7;
       player.y = 4;
+      player.direction = 270;
+    }
+    if ((player.x == 8) && (player.y == 4))
+    {
+      player.x = 7;
+      player.y = 1;
+      player.direction = 270;
     }
   }
   if (Button_Left)
   {
+    player.direction = 270;
     player.x = player.x - 1;                    //move left
-    if (player.x < 0)
+    if ((player.x == -1) && (player.y == 4))
     {
       player.x = 0;
       player.y = 7;
+      player.direction = 90;
+    }
+    if ((player.x == -1) && (player.y == 7))
+    {
+      player.x = 0;
+      player.y = 4;
+      player.direction = 90;
     }
   }
-  if (direction == 90)
+  if (player.direction == 90)
   {
     if (Button_Up)
     {
@@ -192,16 +246,19 @@ void heroMovement
       delay(75);
       player.y = player.y - 1;                    //move down
       delay(75);
-    }  
-  if (direction = 270)
+     }
+   }  
+  if (player.direction == 270)
   {
-    player.y = player.y + 1;                    //move up
-    delay(75);
-    player.x = player.x - 1;                    //move left
-    delay(75);
-    player.y = player.y - 1;                    //move down
-    delay(75);
-  }
+    if (Button_Up)
+    {
+      player.y = player.y + 1;                    //move up
+      delay(75);
+      player.x = player.x - 1;                    //move left
+      delay(75);
+      player.y = player.y - 1;                    //move down
+      delay(75);
+    }
   }
 }
 
