@@ -55,20 +55,27 @@ Point fire2 = {5,4};    // fire 2 x & y position
 Point barrel3 = {6,1};  // barrel 3 x & y position
 Point barrel4 = {3,1};  // barrel 4 x & y position
 int direction = 0;
-
+int level1 = 1;
+int level2 = 4;
+int level3 = 7;
 
 
 
   
 void setup() 
 {
-  MeggyJrSimpleSetup();     // put barrel1.your setup code here, to run once:
+  barrel1.direction = 270;
+  barrel2.direction = 270;//original direction 270
+  fire1.direction = 90;//original direction 90
+  MeggyJrSimpleSetup();     // put your setup code here, to run once:
+  Serial.begin(9600);
 }
 
 void loop() 
 {
+  Serial.print("functioncalled");
   drawBackground();
-  drawheroandBadguy();
+  drawheroandbadguy();
   drawEnemies();
 
   DisplaySlate();
@@ -76,6 +83,7 @@ void loop()
   heroMovement();
   barrel1Movement();
   barrel2Movement();
+  fire1Movement();
 }
 
 void drawBackground()
@@ -118,6 +126,7 @@ void drawEnemies()
 
 void barrel1Movement()
 {
+  {
   if (barrel1.direction == 270)                        //if going in certain direction
   {
     barrel1.x = barrel1.x - 1;                 //move to the left
@@ -126,28 +135,28 @@ void barrel1Movement()
   {
     barrel1.x = barrel1.x + 1;                 //move to the right
   }        
-  barrel1.direction = 270;//original direction 270
-  delay(225);                                // wait 225 mil. sec.
-  if ((barrel1.x == -1) && (barrel1.y == 7)) //if at this point shift to next line
+  // barrel1.direction = 270;                 //original direction 270
+  delay(300);                                // wait 225 mil. sec.
+  if ((barrel1.x < 0) && (barrel1.y == 7)) //if at this point shift to next line
   {
-    barrel1.direction = 90;                           //move in direction 90
     barrel1.x = 0;                            //spawn barrel x position
-    barrel1.y = 4;                            //spawn barrel y position
-    delay(225);                               // wait 225 mil. sec.
+    barrel1.y = level2;                          //spawn barrel y position
+    barrel1.direction = 90;                           //move in direction 90
+    delay(300);                               // wait 225 mil. sec.
   }
-  if ((barrel1.x == 8) && (barrel1.y == 4))  //if at this point shift to next line
+  if ((barrel1.x > 7) && (barrel1.y == 4))  //if at this point shift to next line
   {
-    barrel1.direction = 270;                          //move in driection 90
+    barrel1.direction = 90;
     barrel1.x = 7;                            //spawn barrel x position
-    barrel1.y = 1;                            //spawn barrel y position
-    delay(225);                               // wait 225 mil. sec.
+    barrel1.y = level1;                            //spawn barrel y position
+    delay(300);                               // wait 225 mil. sec.
   }
-  if ((barrel1.x == -1) && (barrel1.y == 1))
+  if ((barrel1.x < 0) && (barrel1.y == 1))
   {
     barrel1.direction = 270;                           //move in direction 270
     barrel1.x = 6;                             //spawn barrel x position
-    barrel1.y = 7;                             //spawn barrel y position
-    delay(225);                                // wait 225 mil. sec.
+    barrel1.y = level3;                             //spawn barrel y position
+    delay(300);                                // wait 225 mil. sec.
   }
 }
 
@@ -160,40 +169,65 @@ void barrel2Movement()
   if (barrel2.direction == 90)
   {
     barrel2.x = barrel2.x + 1;                 //move to the right
-  }        
-  barrel2.direction = 270;//original direction 270
-  delay(225);                                // wait 225 mil. sec.
+  }
   if ((barrel2.x == -1) && (barrel2.y == 7)) //if at this point shift to next line
   {
     barrel2.direction = 90;                           //move in direction 90
     barrel2.x = 0;                            //spawn barrel x position
     barrel2.y = 4;                            //spawn barrel y position
-    delay(225);                               // wait 225 mil. sec.
+    delay(125);                               // wait 225 mil. sec.
   }
   if ((barrel2.x == 8) && (barrel2.y == 4))  //if at this point shift to next line
   {
-    barrel2.direction = 270;                          //move in driection 90
+    barrel2.direction = 270;                          //move in driection 270
     barrel2.x = 7;                            //spawn barrel x position
     barrel2.y = 1;                            //spawn barrel y position
-    delay(225);                               // wait 225 mil. sec.
+    delay(125);                               // wait 225 mil. sec.
   }
   if ((barrel2.x == -1) && (barrel2.y == 1))
   {
     barrel2.direction = 270;                           //move in direction 270
     barrel2.x = 6;                             //spawn barrel x position
     barrel2.y = 7;                             //spawn barrel y position
-    delay(225);                                // wait 225 mil. sec.
+    delay(124);                                // wait 225 mil. sec.
+  }
+}
+
+void fire1Movement()
+{
+  if (fire1.direction == 270)                        //if going in certain direction
+  {
+    fire1.x = fire1.x - 1;                 //move to the left
+  }
+  if (fire1.direction == 90)
+  {
+    fire1.x = fire1.x + 1;                 //move to the right
+  }        
+  if ((fire1.x < 0) && (fire1.y == 7)) //if at this point shift to next line
+  {
+    fire1.direction = 90;                           //move in direction 90
+    fire1.x = 0;                            //spawn barrel x position
+    fire1.y = 4;                            //spawn barrel y position
+    delay(125);                               // wait 225 mil. sec.
+  }
+  if ((fire1.x > 7) && (fire1.y == 4))  //if at this point shift to next line
+  {
+    fire1.direction = 270;                          //move in driection 270
+    fire1.x = 7;                            //spawn barrel x position
+    fire1.y = 1;                            //spawn barrel y position
+    delay(125);                               // wait 225 mil. sec.
+  }
+  if ((fire1.x < 0) && (fire1.y == 1))
+  {
+    fire1.direction = 270;                           //move in direction 270
+    fire1.x = 6;                             //spawn barrel x position
+    fire1.y = 7;                             //spawn barrel y position
+    delay(125);                                // wait 225 mil. sec.
   }
 }
 
 
-
-
-
-
-
-
-void drawheroandBadguy()
+void drawheroandbadguy()
 {
   DrawPx(player.x,player.y,Green);             //spanw hero
   DrawPx(badguy.x,badguy.y,Violet);            //spaen badguy
@@ -206,34 +240,33 @@ void heroMovement()
   {
     player.direction = 90;
     player.x = player.x + 1;                    //move right
+    delay(100);
     if ((player.x == 8) && (player.y == 1))
     {
       player.x = 7;
       player.y = 4;
-      player.direction = 270;
     }
     if ((player.x == 8) && (player.y == 4))
     {
       player.x = 7;
       player.y = 1;
-      player.direction = 270;
+      delay(100);
     }
   }
   if (Button_Left)
   {
     player.direction = 270;
     player.x = player.x - 1;                    //move left
+    delay(100);
     if ((player.x == -1) && (player.y == 4))
     {
       player.x = 0;
       player.y = 7;
-      player.direction = 90;
     }
     if ((player.x == -1) && (player.y == 7))
     {
       player.x = 0;
       player.y = 4;
-      player.direction = 90;
     }
   }
   if (player.direction == 90)
