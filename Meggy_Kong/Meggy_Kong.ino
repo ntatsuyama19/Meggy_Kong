@@ -48,7 +48,10 @@ struct Point
 
 Point player = {0,1}; // luigi x position & y position
 Point badguy1 = {7,7}; // donkey kong x position & y position 
-Point badguy2 = {4,0};
+Point badguy2 = {4,1};
+Point badguy3 = {3,1};
+Point princess1 = {3,0};
+Point princess2 = {4,0};
 Point barrel1 = {1,7};// barrel 1 x & y position
 Point barrel2 = {5,7};// barrel 2 x & y position
 Point fire1 = {2,4};    // fire 1 x & y position
@@ -88,12 +91,18 @@ void Level1()
   DisplaySlate();
   ClearSlate();
   heroMovement();
+  updateHero();  
   barrel1Movement();
   barrel2Movement();
   fire1Movement();
   fire2Movement();
   barrel3Movement();
   barrel4Movement();
+  checkLevel2();
+  if (drawNextLevel);
+  {
+    ClearSlate();
+  }
 }
 
 void drawBackground()
@@ -339,57 +348,75 @@ void barrel4Movement()
   }
 }
 
-void heroMovement()
-{
-  CheckButtonsPress();                          //check movement
-  if (Button_Right)
+void updateHero()
+{                          //check movement
+  if (player.direction == 90)
   {
-    player.direction = 90;
-    player.x = player.x + 1;                    //move right
-    if ((player.x > 7) && (player.y == platform1))
+    player.x = player.x + 1;
+    delay(75);
+    DisplaySlate(); 
+    ClearSlate();      
+    if ((player.x == 8) && (player.y == platform1))
     {
       player.x = 7;
       player.y = platform2;
     }
-    if ((player.x > 7) && (player.y == platform2))
+    if ((player.x == 8) && (player.y == platform2))
     {
       player.x = 7;
       player.y = platform1;
     }
-  }
-  if (Button_Left)
+  }  
+  if (player.direction == 270)
   { 
-    player.direction = 270;
     player.x = player.x - 1; 
-    if ((player.x < 0) && (player.y == platform2))
+    delay(75);
+    DisplaySlate();
+    ClearSlate();
+    if ((player.x == -1) && (player.y == platform2))
     {
       player.x = 0;
       player.y = platform3;
     }
-    if ((player.x < 0) && (player.y == platform3))
+    if ((player.x == -1) && (player.y == platform3))
     {
       player.x = 0;
       player.y = platform2;
     }
-    if (Button_Up && player.direction == 90)
-    {
-      player.y = player.y + 1;
-      delay(75);
-      player.x = player.x + 1;
-      delay(75);
-      player.y = player.y - 1;                    //move down
-      delay(75);
-      }  
-    if (Button_Up && player.direction == 270)
-    {
-      delay(75);
-      player.x = player.x - 1;                    //move left
-      delay(75);
-      player.y = player.y - 1;                    //move down
-      delay(75);
-    }
+  }  
+  if (Button_Up && player.direction == 90)
+  {
+    player.y = player.y + 1;
+    delay(75);
+    player.x = player.x + 1;
+    delay(75);
+    player.y = player.y - 1;                    //move down
+    delay(75);
+  }  
+  if (Button_Up && player.direction == 270)
+  {
+    player.y = player.y + 1;
+    delay(75);
+    player.x = player.x - 1;                    //move left
+    delay(75);
+    player.y = player.y - 1;                    //move down
+    delay(75);
   }
 }
+
+void heroMovement()
+{
+  CheckButtonsPress();
+  if (Button_Right)
+  {
+    player.direction = 90;
+  }
+  if (Button_Left)
+  {
+    player.direction = 270;
+  }
+}
+
 
 void checkLevel2()
 {
@@ -399,14 +426,40 @@ void checkLevel2()
   }
 }
 
-void drawNextLevel();
+void drawNextLevel()
 {
-  badguy1.x = 3;
-  badguy1.y = 1;
-  badguy1.y = badguy1.y + 1;
-  badguy2.x = 4;
-  badguy2.y = 1;
+  DrawPx(badguy3.x,badguy3.y,Violet);
+  DrawPx(badguy2.x,badguy2.y,Violet);
+  DrawPx(princess1.x,princess1.y,Orange);
+  DrawPx(princess2.x,princess2.y,Orange);
+  DisplaySlate();
+  ClearSlate();
+  nextLevelMovement();
+  delay(300);
+}
+
+void nextLevelMovement()
+{
+  badguy3.y = badguy3.y + 1;
   badguy2.y = badguy2.y + 1;
+  princess1.y = princess1.y + 1;
+  princess2.y = princess2.y + 1; 
+  if (badguy3.y == 8)
+  {
+    ClearSlate(); 
+  }
+  if (badguy2.y == 8)
+  {
+    ClearSlate(); 
+  }
+  if (princess1.y == 8)
+  {
+    ClearSlate(); 
+  }
+  if (princess2.y == 8)
+  {
+    ClearSlate(); 
+  }      
 }
 
 void drawHandB()
