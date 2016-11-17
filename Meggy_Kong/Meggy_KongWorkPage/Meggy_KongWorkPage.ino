@@ -9,9 +9,7 @@ struct Point
 
 int direction = 0;
 Point barrel1 = {1,7};// barrel 1 x & y position
-int level1 = 1;
-int level2 = 4;
-int level3 = 7;
+c
 
 void setup() 
 {

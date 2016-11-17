@@ -69,6 +69,7 @@ int enemyspeed = 225;
 void setup() 
 {
   MeggyJrSimpleSetup();     // put your setup code here, to run once:
+  player.direction = 90;
   barrel1.direction = 270;
   barrel2.direction = 270;//original direction 270
   fire1.direction = 90;//original direction 90
@@ -89,7 +90,6 @@ void Level1()
   drawEnemies();
 
   DisplaySlate();
-  ClearSlate();
   heroMovement();
   updateHero();  
   barrel1Movement();
@@ -104,7 +104,7 @@ void Level1()
     ClearSlate();
   }
 }
-
+                                     
 void drawBackground()
 {
   DrawPx(0,6,Red);          //draw background all the platforms
@@ -353,37 +353,31 @@ void updateHero()
   if (player.direction == 90)
   {
     player.x = player.x + 1;
-    delay(75);
-    DisplaySlate(); 
-    ClearSlate();      
-    if ((player.x == 8) && (player.y == platform1))
+    DisplaySlate();
+    delay(200);     
+    if ((player.x > 7) && (player.y == platform1))
     {
+      player.direction = 270;
       player.x = 7;
       player.y = platform2;
-    }
-    if ((player.x == 8) && (player.y == platform2))
-    {
-      player.x = 7;
-      player.y = platform1;
     }
   }  
   if (player.direction == 270)
   { 
     player.x = player.x - 1; 
-    delay(75);
     DisplaySlate();
-    ClearSlate();
-    if ((player.x == -1) && (player.y == platform2))
+    delay(200);
+    if ((player.x < 0) && (player.y == platform2))
     {
+      player.direction = 90;
       player.x = 0;
       player.y = platform3;
-    }
-    if ((player.x == -1) && (player.y == platform3))
-    {
-      player.x = 0;
-      player.y = platform2;
-    }
-  }  
+    }  
+  } 
+  if (player.direction == 180)
+  {
+    player.x = player.x;
+  }
   if (Button_Up && player.direction == 90)
   {
     player.y = player.y + 1;
@@ -415,8 +409,11 @@ void heroMovement()
   {
     player.direction = 270;
   }
+  if (Button_Down)
+  {
+    player.direction = 180;
+  }
 }
-
 
 void checkLevel2()
 {
