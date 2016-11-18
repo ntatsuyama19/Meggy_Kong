@@ -62,9 +62,9 @@ int direction = 0;
 int platform1 = 1;
 int platform2 = 4;
 int platform3 = 7;
-int enemyspeed1 = 500;
+int enemyspeed1 = 200;
 int enemyspeed2 = 300;
-int playerspeed = 500;
+int playerspeed = 100;
 
 
   
@@ -83,7 +83,10 @@ void setup()
 void loop() 
 {
   Level1();
-  Level2();
+  if (drawlevel2)
+  {
+    Level2();
+  }
 }
 
 void Level1()
@@ -98,7 +101,16 @@ void Level1()
   updateHero();  
   level1enemymovement();
   checkLevel2();
-  if (drawNextLevel);
+  ClearSlate();
+}
+
+void drawlevel2()
+{
+  drawBackground();
+  drawHandB();
+  drawEnemies();
+  DisplaySlate();
+  if (Level2)
   {
     ClearSlate();
   }
@@ -116,10 +128,7 @@ void Level2()
   updateHero();  
   level2enemymovement();
   checkLevel3();
-  if (drawNextLevel);
-  {
-    ClearSlate();
-  }
+  ClearSlate();
 }
                                      
 void drawBackground()
@@ -140,7 +149,7 @@ void drawBackground()
   DrawPx(5,3,Red);
   DrawPx(6,3,Red);
   DrawPx(7,3,Red);
-  DrawPx(0,6,Red);
+  DrawPx(0,0,Red);
   DrawPx(1,0,Red);
   DrawPx(2,0,Red);
   DrawPx(3,0,Red);
@@ -478,39 +487,73 @@ void checkLevel3()
 
 void drawNextLevel()
 {
-  DrawPx(badguy3.x,badguy3.y,Violet);
-  DrawPx(badguy2.x,badguy2.y,Violet);
-  DrawPx(princess1.x,princess1.y,Orange);
-  DrawPx(princess2.x,princess2.y,Orange);
-  DisplaySlate();
   ClearSlate();
-  nextLevelMovement();
-  delay(300);
+  DrawPx(3,1,Violet);
+  DrawPx(4,1,Violet);
+  DrawPx(3,0,Orange);
+  DrawPx(4,0,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,2,Violet);
+  DrawPx(4,2,Violet);
+  DrawPx(3,1,Orange);
+  DrawPx(4,1,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,3,Violet);
+  DrawPx(4,3,Violet);
+  DrawPx(3,2,Orange);
+  DrawPx(4,2,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,4,Violet);
+  DrawPx(4,4,Violet);
+  DrawPx(3,3,Orange);
+  DrawPx(4,3,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,5,Violet);
+  DrawPx(4,5,Violet);
+  DrawPx(3,4,Orange);
+  DrawPx(4,4,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,6,Violet);
+  DrawPx(4,6,Violet);
+  DrawPx(3,5,Orange);
+  DrawPx(4,5,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,7,Violet);
+  DrawPx(4,7,Violet);
+  DrawPx(3,6,Orange);
+  DrawPx(4,6,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  DrawPx(3,7,Orange);
+  DrawPx(4,7,Orange);
+  DisplaySlate();
+  delay(500);
+  ClearSlate();
+
+  drawlevel2();
 }
 
-void nextLevelMovement()
-{
-  badguy3.y = badguy3.y + 1;
-  badguy2.y = badguy2.y + 1;
-  princess1.y = princess1.y + 1;
-  princess2.y = princess2.y + 1; 
-  if (badguy3.y == 8)
-  {
-    ClearSlate(); 
-  }
-  if (badguy2.y == 8)
-  {
-    ClearSlate(); 
-  }
-  if (princess1.y == 8)
-  {
-    ClearSlate(); 
-  }
-  if (princess2.y == 8)
-  {
-    ClearSlate(); 
-  }      
-}
+
 
 void drawHandB()
 {
