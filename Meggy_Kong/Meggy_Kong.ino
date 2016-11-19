@@ -62,7 +62,7 @@ int direction = 0;
 int platform1 = 1;
 int platform2 = 4;
 int platform3 = 7;
-int enemyspeed1 = 200;
+int enemyspeed1 = 500;
 int enemyspeed2 = 100;
 int playerspeed = 200;
 
@@ -139,6 +139,8 @@ void Level1()
 
 void drawlevel2()
 {
+  player.x = 0;
+  player.y = 1;
   drawBackground();
   drawHandB();
   drawEnemies();
@@ -432,7 +434,6 @@ void updateHero()
   if (player.direction == 90)
   {
     DisplaySlate();
-    delay(playerspeed);     
     if ((player.x > 7) && (player.y == platform1))
     {
       player.direction = 270;
@@ -443,7 +444,6 @@ void updateHero()
   if (player.direction == 270)
   { 
     DisplaySlate();
-    delay(playerspeed);
     if ((player.x < 0) && (player.y == platform2))
     {
       player.direction = 90;
