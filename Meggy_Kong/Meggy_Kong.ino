@@ -1,5 +1,5 @@
 /*
-  Meggbarrel1.y_Kong.pde bbarrel1.y Noah Tatsubarrel1.yama
+  Meggy_Kong.pde bbarrel1.y Noah Tatsubarrel1.yama
  
  Example file using the The Meggbarrel1.y Jr Simplified Librarbarrel1.y (MJSL)
   from the Meggbarrel1.y Jr RGB librarbarrel1.y for Arduino
@@ -45,7 +45,7 @@ struct Point
  int y;
  int direction;
 }; 
-
+                    
 Point player = {0,1}; // luigi x position & y position
 Point badguy1 = {7,7}; // donkey kong x position & y position 
 Point badguy2 = {4,1};
@@ -56,15 +56,15 @@ Point barrel1 = {1,7};// barrel 1 x & y position
 Point barrel2 = {5,7};// barrel 2 x & y position
 Point fire1 = {2,4};    // fire 1 x & y position
 Point fire2 = {5,4};    // fire 2 x & y position
-Point barrel3 = {6,1};  // barrel 3 x & y position
+Point barrel3 = {7,1};  // barrel 3 x & y position
 Point barrel4 = {3,1};  // barrel 4 x & y position
 int direction = 0;
 int platform1 = 1;
 int platform2 = 4;
 int platform3 = 7;
 int enemyspeed1 = 200;
-int enemyspeed2 = 300;
-int playerspeed = 100;
+int enemyspeed2 = 100;
+int playerspeed = 200;
 
 
   
@@ -87,7 +87,40 @@ void loop()
   {
     Level2();
   }
+  checkRestart();
 }
+
+void checkRestart()
+{
+  CheckButtonsDown;
+  if (Button_Down)
+  {
+    ClearSlate();
+    player.x = 0;
+    player.y = 1;
+    badguy1.x = 7;
+    badguy2.y = 7;
+    barrel1.x = 1;
+    barrel1.y = 7;
+    barrel2.x = 5;
+    barrel2.y = 7;
+    fire1.x = 2;
+    fire1.y = 4;
+    fire2.x = 6;
+    fire2.y = 4;  
+    barrel3.x = 7;
+    barrel3.y = 1;
+    barrel4.x = 3;
+    barrel4.y = 1;
+    drawBackground();
+    drawHandB();
+    drawEnemies();
+    Level1();
+  }
+}
+
+
+
 
 void Level1()
 {
@@ -398,7 +431,6 @@ void updateHero()
 {                          //check movement
   if (player.direction == 90)
   {
-    player.x = player.x + 1;
     DisplaySlate();
     delay(playerspeed);     
     if ((player.x > 7) && (player.y == platform1))
@@ -410,7 +442,6 @@ void updateHero()
   }  
   if (player.direction == 270)
   { 
-    player.x = player.x - 1; 
     DisplaySlate();
     delay(playerspeed);
     if ((player.x < 0) && (player.y == platform2))
@@ -421,31 +452,30 @@ void updateHero()
     }  
   } 
   if (player.direction == 180)
-  {
-    player.x = player.x;
-  }
-  if (Button_Up && player.direction == 90)
-  {
-    player.y = player.y + 1;
-    delay(playerspeed);
-    player.x = player.x + 1;
-    delay(playerspeed);
-    player.x = player.x + 1;
-    delay(playerspeed);
-    player.y = player.y - 1;                    //move down
-    delay(playerspeed);
+  { 
+    if (Button_Up && player.direction == 90)
+    {
+      player.y = player.y + 1;
+      delay(playerspeed);
+      player.x = player.x + 1;
+      delay(playerspeed);
+      player.x = player.x + 1;
+      delay(playerspeed);
+      player.y = player.y - 1;                    //move down
+      delay(playerspeed);
+    }  
+    if (Button_Up && player.direction == 270)
+    {
+      player.y = player.y + 1;
+      delay(playerspeed);
+      player.x = player.x - 1;                    //move left
+      delay(playerspeed);
+      player.x = player.x - 1;                    //move left
+      delay(playerspeed);
+      player.y = player.y - 1;                    //move down
+      delay(playerspeed);
+    }
   }  
-  if (Button_Up && player.direction == 270)
-  {
-    player.y = player.y + 1;
-    delay(playerspeed);
-    player.x = player.x - 1;                    //move left
-    delay(playerspeed);
-    player.x = player.x - 1;                    //move left
-    delay(playerspeed);
-    player.y = player.y - 1;                    //move down
-    delay(playerspeed);
-  }
 }
 
 void heroMovement()
@@ -453,10 +483,12 @@ void heroMovement()
   CheckButtonsPress();
   if (Button_Right)
   {
+    player.x = player.x + 1;
     player.direction = 90;
   }
   if (Button_Left)
   {
+    player.x = player.x - 1;
     player.direction = 270;
   }
   if  (Button_A)
@@ -767,8 +799,33 @@ void playDeath()                                  //what to do if dead
   DisplaySlate();
   delay(500);
   ClearSlate();
+  Restart();
+
 }
 
+void Restart()
+{
+  player.x = 0;
+  player.y = 1;
+  badguy1.x = 7;
+  badguy2.y = 7;
+  barrel1.x = 1;
+  barrel1.y = 7;
+  barrel2.x = 5;
+  barrel2.y = 7;
+  fire1.x = 2;
+  fire1.y = 4;
+  fire2.x = 6;
+  fire2.y = 4;  
+  barrel3.x = 7;
+  barrel3.y = 1;
+  barrel4.x = 3;
+  barrel4.y = 1;
+  drawBackground();
+  drawHandB();
+  drawEnemies();
+  Level1();
+}
 
 void barrel1Movement2()
 {
